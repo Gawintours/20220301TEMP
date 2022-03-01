@@ -48,6 +48,9 @@ public class FileTransfer implements Runnable, AutoCloseable {
 	public enum TransferMode {
 		Prompt, Background, Normal
 	}
+	public enum LanguageMode {
+		SimplifiedChinese , ChineseTraditional, English
+	}
 
 	public FileTransfer(FileSystem sourceFs, FileSystem targetFs, FileInfo[] files, String targetFolder,
 			FileTransferProgress callback, ConflictAction defaultConflictAction) {

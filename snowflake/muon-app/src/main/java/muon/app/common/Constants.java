@@ -16,7 +16,10 @@ public interface Constants {
     String CONNECT = "连 接";
 
     String CANCEL = "取 消";
+    String SAVE = "保 存";
 
+
+    String RESET = "重 置";
     String EXPORT = "导 出";
 
     String IMPORT = "导 入";
@@ -52,6 +55,10 @@ public interface Constants {
     String PROXY_USER = "代理用户";
     String PROXY_PASSWORD = "代理密码";
     String PROXY_PASSWORD_TIPS = "提示:密码以明文方式保存";
+
+    String SETTING_TITLE = "设置";
+
+    String SETTING_CONFIRM_TIPS = "";
 
 
 

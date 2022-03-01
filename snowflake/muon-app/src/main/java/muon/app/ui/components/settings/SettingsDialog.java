@@ -45,9 +45,11 @@ import com.jediterm.terminal.emulator.ColorPalette;
 import muon.app.App;
 import muon.app.PasswordStore;
 import muon.app.Settings;
+import muon.app.common.Constants;
 import muon.app.ui.components.KeyShortcutComponent;
 import muon.app.ui.components.SkinnedScrollPane;
 import muon.app.ui.components.SkinnedTextField;
+import muon.app.ui.components.session.files.transfer.FileTransfer;
 import muon.app.ui.components.session.files.transfer.FileTransfer.ConflictAction;
 import muon.app.ui.components.session.files.transfer.FileTransfer.TransferMode;
 import util.CollectionHelper;
@@ -78,11 +80,15 @@ public class SettingsDialog extends JDialog {
 	private JSpinner spLogLinesPerPage, spLogFontSize;
 
 	private JSpinner spSysLoadInterval;
-	private JComboBox<String> cmbTransferMode, cmbConflictAction;
+	private JComboBox<String> cmbTransferMode, cmbConflictAction,languageMode;
 	private DefaultComboBoxModel<String> conflictOptions = new DefaultComboBoxModel<>();
+
+	private DefaultComboBoxModel<String> languageOptions = new DefaultComboBoxModel<>();
 
 	private List<String> conflictOption1 = Arrays.asList("Overwrite", "Auto rename", "Skip", "Prompt");
 	private List<String> conflictOption2 = Arrays.asList("Overwrite", "Auto rename", "Skip");
+
+	private List<String> languageOption = Arrays.asList("简体中文", "繁体中文", "English");
 
 	private JTable editorTable;
 
@@ -101,7 +107,7 @@ public class SettingsDialog extends JDialog {
 	 */
 	public SettingsDialog(JFrame window) {
 		super(window);
-		setTitle("Settings");
+		setTitle(Constants.SETTING_TITLE);
 		setModal(true);
 		setSize(800, 600);
 
@@ -144,9 +150,9 @@ public class SettingsDialog extends JDialog {
 		bottomBox.setBorder(new CompoundBorder(new MatteBorder(1, 0, 0, 0, App.SKIN.getDefaultBorderColor()),
 				new EmptyBorder(10, 10, 10, 10)));
 
-		btnCancel = new JButton("Cancel");
-		btnSave = new JButton("Save");
-		btnReset = new JButton("Reset");
+		btnCancel = new JButton(Constants.CANCEL);
+		btnSave = new JButton(Constants.SAVE);
+		btnReset = new JButton(Constants.RESET);
 
 		btnSave.addActionListener(e -> {
 			applySettings();
@@ -413,6 +419,9 @@ public class SettingsDialog extends JDialog {
 		cmbTransferMode = new JComboBox<>(new String[] { "Transfer normally", "Transfer in background" });
 		cmbConflictAction = new JComboBox<>(conflictOptions);
 
+		languageMode = new JComboBox<>(languageOptions);
+
+
 		Dimension d1 = new Dimension(Math.max(200, cmbTransferMode.getPreferredSize().width * 2),
 				cmbTransferMode.getPreferredSize().height);
 
@@ -423,6 +432,10 @@ public class SettingsDialog extends JDialog {
 		cmbConflictAction.setMaximumSize(d1);
 		cmbConflictAction.setMinimumSize(d1);
 		cmbConflictAction.setPreferredSize(d1);
+
+		languageMode.setMaximumSize(d1);
+		languageMode.setMinimumSize(d1);
+		languageMode.setPreferredSize(d1);
 
 		resizeNumericSpinner(spLogLinesPerPage);
 		resizeNumericSpinner(spLogFontSize);
@@ -493,7 +506,8 @@ public class SettingsDialog extends JDialog {
 		vbox.add(Box.createRigidArea(new Dimension(10, 10)));
 		vbox.add(createRow(new JLabel("Conflict action"), Box.createHorizontalGlue(), cmbConflictAction));
 		vbox.add(Box.createRigidArea(new Dimension(10, 10)));
-
+		vbox.add(createRow(new JLabel("Language"), Box.createHorizontalGlue(), languageMode));
+		vbox.add(Box.createRigidArea(new Dimension(10, 10)));
 		vbox.setBorder(new EmptyBorder(30, 10, 10, 10));
 		// add(vbox);
 
@@ -671,11 +685,10 @@ public class SettingsDialog extends JDialog {
 				cmbConflictAction.setSelectedIndex(0);
 			}
 		});
-
 		cmbTransferMode.setSelectedIndex(settings.getFileTransferMode() == TransferMode.Normal ? 0 : 1);
 		// set initial values
 		conflictOptions.addAll(conflictOption1);
-
+		languageOptions.addAll(languageOption);
 		switch (settings.getConflictAction()) {
 		case OverWrite:
 			cmbConflictAction.setSelectedIndex(0);
@@ -692,7 +705,19 @@ public class SettingsDialog extends JDialog {
 		default:
 			break;
 		}
-
+		switch (settings.getLanguageMode()) {
+			case SimplifiedChinese:
+				languageMode.setSelectedIndex(0);
+				break;
+			case ChineseTraditional:
+				languageMode.setSelectedIndex(1);
+				break;
+			case English:
+				cmbConflictAction.setSelectedIndex(2);
+				break;
+			default:
+				break;
+		}
 		this.editorModel.clear();
 		this.editorModel.addEntries(settings.getEditors());
 

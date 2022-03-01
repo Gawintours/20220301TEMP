@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import muon.app.ui.components.session.files.transfer.FileTransfer;
 import muon.app.ui.components.session.files.transfer.FileTransfer.ConflictAction;
 import muon.app.ui.components.session.files.transfer.FileTransfer.TransferMode;
 import muon.app.ui.components.settings.DarkTerminalTheme;
@@ -16,6 +17,7 @@ public class Settings {
 	private boolean usingMasterPassword = false;
 	private TransferMode fileTransferMode = TransferMode.Prompt;
 	private ConflictAction conflictAction = ConflictAction.AutoRename;
+	private FileTransfer.LanguageMode languageMode = FileTransfer.LanguageMode.SimplifiedChinese;
 	private boolean confirmBeforeDelete = true;
 	private boolean confirmBeforeMoveOrCopy = false;
 	private boolean showHiddenFilesByDefault = false;
@@ -593,4 +595,11 @@ public class Settings {
 		this.listViewEnabled = listViewEnabled;
 	}
 
+	public FileTransfer.LanguageMode getLanguageMode() {
+		return languageMode;
+	}
+
+	public void setLanguageMode(FileTransfer.LanguageMode languageMode) {
+		this.languageMode = languageMode;
+	}
 }
