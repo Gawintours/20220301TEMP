@@ -49,7 +49,7 @@ public class FileTransfer implements Runnable, AutoCloseable {
 		Prompt, Background, Normal
 	}
 	public enum LanguageMode {
-		SimplifiedChinese , ChineseTraditional, English
+		SIMPLIFIED_CHINESE , TRADITIONAL_CHINESE, English
 	}
 
 	public FileTransfer(FileSystem sourceFs, FileSystem targetFs, FileInfo[] files, String targetFolder,

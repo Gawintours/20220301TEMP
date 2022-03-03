@@ -68,7 +68,7 @@ public class AppWindow extends JFrame {
 	 * 
 	 */
 	public AppWindow() {
-		super(Constants.APP_TITLE);
+		super(App.getValue("app.title"));
 		try {
 			this.setIconImage(ImageIO.read(AppWindow.class.getResource("/muon.png")));
 		} catch (Exception e) {
@@ -127,9 +127,9 @@ public class AppWindow extends JFrame {
 	}
 
 	private JPanel createSessionPanel() {
-		JLabel lblSession = new JLabel(Constants.SESSION);
+		JLabel lblSession = new JLabel(App.getValue("app.session.title"));
 		lblSession.setFont(App.SKIN.getDefaultFont().deriveFont(14.0f));
-		JButton btnNew = new JButton(Constants.NEW_SESSION);
+		JButton btnNew = new JButton(App.getValue("app.session.new"));
 		btnNew.setFont(App.SKIN.getDefaultFont().deriveFont(12.0f));
 		btnNew.addActionListener(e -> {
 			SessionInfo info = new NewSessionDlg(this).newSession();
@@ -221,7 +221,7 @@ public class AppWindow extends JFrame {
 
 		// b1.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		JLabel lblBrand = new JLabel(Constants.APP_TITLE + Constants.MINUS+Constants.APP_VERSION);
+		JLabel lblBrand = new JLabel(App.getValue("app.title") + Constants.MINUS+Constants.APP_VERSION);
 		lblBrand.addMouseListener(ml);
 		lblBrand.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		// lblBrand.setFont(App.SKIN.getDefaultFont().deriveFont(Font.PLAIN,
@@ -231,9 +231,9 @@ public class AppWindow extends JFrame {
 		b1.add(lblBrand);
 		b1.add(Box.createRigidArea(new Dimension(10, 10)));
 
-		JLabel lblUrl = new JLabel(Constants.BOTTOM_TAGS);
-		lblUrl.addMouseListener(ml);
-		lblUrl.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		//JLabel lblUrl = new JLabel(Constants.BOTTOM_TAGS);
+		//lblUrl.addMouseListener(ml);
+		//lblUrl.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		// lblUrl.setFont(App.SKIN.getDefaultFont().deriveFont(Font.PLAIN, 14));
 		// lblUrl.setForeground(Color.WHITE);
 		// lblUrl.setForeground(App.SKIN.getDefaultSelectionForeground());
@@ -326,35 +326,35 @@ public class AppWindow extends JFrame {
 		});
 
 		// lblHelp.setForeground(Color.WHITE);
-		lblHelp.setText(FontAwesomeContants.FA_QUESTION_CIRCLE);
-		lblHelp.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		//lblHelp.setText(FontAwesomeContants.FA_QUESTION_CIRCLE);
+		//lblHelp.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		//b1.add(lblHelp);
 		//b1.add(Box.createRigidArea(new Dimension(10, 10)));
 
-		lblUpdate = new JLabel();
-		lblUpdate.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		lblUpdate.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				openUpdateURL();
-			}
-		});
+		//lblUpdate = new JLabel();
+		//lblUpdate.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		//lblUpdate.addMouseListener(new MouseAdapter() {
+		//	@Override
+		//	public void mouseClicked(MouseEvent e) {
+		//		openUpdateURL();
+		//	}
+		//});
 
-		lblUpdate.setFont(App.SKIN.getIconFont().deriveFont(16.0f));
+		//lblUpdate.setFont(App.SKIN.getIconFont().deriveFont(16.0f));
 		// lblUpdate.setForeground(Color.WHITE);
-		lblUpdate.setText(FontAwesomeContants.FA_REFRESH);
+		//lblUpdate.setText(FontAwesomeContants.FA_REFRESH);
 		//b1.add(lblUpdate);
 
 		//b1.add(Box.createRigidArea(new Dimension(5, 10)));
 
-		lblUpdateText = new JLabel("Check for update");
-		lblUpdateText.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		lblUpdateText.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				openUpdateURL();
-			}
-		});
+		//lblUpdateText = new JLabel("Check for update");
+		//lblUpdateText.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		//lblUpdateText.addMouseListener(new MouseAdapter() {
+			//@Override
+			//public void mouseClicked(MouseEvent e) {
+			//	openUpdateURL();
+			//}
+		//});
 
 		//b1.add(lblUpdateText);
 

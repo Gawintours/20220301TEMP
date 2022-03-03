@@ -7,11 +7,7 @@ import java.io.IOException;
 //import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -22,6 +18,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import muon.app.ui.components.session.files.transfer.FileTransfer;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -68,6 +65,8 @@ public class App {
 	public static final String TRANSFER_HOSTS = "transfer-hosts.json";
 	public static final String BOOKMARKS_FILE = "bookmarks.json";
 	private static Settings settings;
+	public static PropertyResourceBundle resourceBundle;
+	public static final String LANGUAGE_PREFIX_PROPERTIES = "message";
 	public static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 	public static final SnippetManager SNIPPET_MANAGER = new SnippetManager();
 	private static InputBlocker inputBlocker;
@@ -84,15 +83,14 @@ public class App {
 	public static GraphicalHostKeyVerifier HOST_KEY_VERIFIER;
 
 	public static void main(String[] args) throws UnsupportedLookAndFeelException {
-		
+		log.info("application starting");
 
 		Security.addProvider(new BouncyCastleProvider());
-		
 		Security.setProperty("networkaddress.cache.ttl", "1");
 		Security.setProperty("networkaddress.cache.negative.ttl", "1");
 		Security.setProperty("crypto.policy", "unlimited");
 
-		log.info(System.getProperty("java.version"));
+		log.info("application run evn version {}",System.getProperty("java.version"));
 
 		boolean firstRun = false;
 
@@ -108,7 +106,15 @@ public class App {
 			System.setProperty("sun.java2d.uiScale.enabled", "true");
 			System.setProperty("sun.java2d.uiScale", String.format("%.2f", settings.getUiScaling()));
 		}
-
+		FileTransfer.LanguageMode languageMode = settings.getLanguageMode();
+		//initial language resource
+		Locale locale = Locale.CHINA;
+		if (FileTransfer.LanguageMode.English.equals(languageMode)) {
+			locale = Locale.US;
+		}else if(FileTransfer.LanguageMode.TRADITIONAL_CHINESE.equals(languageMode)){
+			locale = Locale.TRADITIONAL_CHINESE;
+		}
+		resourceBundle = getResourceBundle(locale);
 		if (firstRun) {
 			SessionExportImport.importOnFirstRun();
 		}
@@ -298,4 +304,27 @@ public class App {
 //		}
 //		return null;
 //	}
+
+	public static PropertyResourceBundle getResourceBundle(String name, Locale locale){
+		return (PropertyResourceBundle)ResourceBundle.getBundle("message",locale == null? Locale.CHINA :locale);
+	}
+
+	public static PropertyResourceBundle getResourceBundle(String name){
+		return getResourceBundle(name,Locale.CHINA);
+	}
+	public static PropertyResourceBundle getResourceBundle(){
+		return getResourceBundle(LANGUAGE_PREFIX_PROPERTIES);
+	}
+	public static PropertyResourceBundle getResourceBundle(Locale locale){
+		return getResourceBundle(LANGUAGE_PREFIX_PROPERTIES,locale);
+	}
+	public static String getValue(String key){
+		if (resourceBundle == null){
+			resourceBundle = getResourceBundle();
+		}
+		return resourceBundle.getString(key)!=null?resourceBundle.getString(key):getResourceBundle(Locale.US).getString(key);
+	}
+	public static void setResourceBundle(Locale locale){
+		resourceBundle = getResourceBundle(locale);
+	}
 }

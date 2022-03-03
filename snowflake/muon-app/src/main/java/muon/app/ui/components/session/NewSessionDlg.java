@@ -92,7 +92,7 @@ public class NewSessionDlg extends JDialog implements ActionListener, TreeSelect
 			}
 		});
 
-		setTitle(Constants.SESSION_MANAGER);
+		setTitle(App.getValue("connect.manage.title"));
 
 //		List<SessionFolder> folders = SessionStore.getSharedInstance()
 //				.getFolders();
@@ -121,43 +121,43 @@ public class NewSessionDlg extends JDialog implements ActionListener, TreeSelect
 		jsp.setBorder(new LineBorder(App.SKIN.getDefaultBorderColor(), 1));
 
 		// btnNewHost = new JButton(TextHolder.getString("session.newHost"));
-		btnNewHost = new JButton(Constants.NEW_CONNECT);
+		btnNewHost = new JButton(App.getValue("connect.manage.tab.connect.btn.newSite"));
 		btnNewHost.addActionListener(this);
 		btnNewHost.putClientProperty("button.name", "btnNewHost");
 		// btnNewHost.setFont(Utility.getFont(Constants.SMALL));
-		btnNewFolder = new JButton(Constants.NEW_FILE_FOLDER);// new
+		btnNewFolder = new JButton(App.getValue("connect.manage.tab.connect.btn.newSite"));// new
 													// JButton(TextHolder.getString("session.newFolder"));
 		btnNewFolder.addActionListener(this);
 		btnNewFolder.putClientProperty("button.name", "btnNewFolder");
 		// btnNewFolder.setFont(Utility.getFont(Constants.SMALL));
-		btnDel = new JButton(Constants.REMOVE);// new
+		btnDel = new JButton(App.getValue("common.remove"));// new
 										// JButton(TextHolder.getString("session.remove"));
 		btnDel.addActionListener(this);
 		btnDel.putClientProperty("button.name", "btnDel");
 		// btnDel.setFont(Utility.getFont(Constants.SMALL));
-		btnDup = new JButton(Constants.COPY);// new
+		btnDup = new JButton(App.getValue("connect.manage.tab.connect.btn.duplicate"));// new
 											// JButton(TextHolder.getString("session.duplicate"));
 		btnDup.addActionListener(this);
 		btnDup.putClientProperty("button.name", "btnDup");
 		// btnDup.setFont(Utility.getFont(Constants.SMALL));
 
-		btnConnect = new JButton(Constants.CONNECT);// new
+		btnConnect = new JButton(App.getValue("common.connect"));// new
 											// JButton(TextHolder.getString("session.connect"));
 		btnConnect.addActionListener(this);
 		btnConnect.putClientProperty("button.name", "btnConnect");
 		// btnConnect.setFont(Utility.getFont(Constants.SMALL));
 
-		btnCancel = new JButton(Constants.CANCEL);// new
+		btnCancel = new JButton(App.getValue("common.cancel"));// new
 											// JButton(TextHolder.getString("session.cancel"));
 		btnCancel.addActionListener(this);
 		btnCancel.putClientProperty("button.name", "btnCancel");
 
-		btnExport = new JButton(Constants.EXPORT);// new
+		btnExport = new JButton(App.getValue("common.export"));// new
 		// JButton(TextHolder.getString("session.cancel"));
 		btnExport.addActionListener(this);
 		btnExport.putClientProperty("button.name", "btnExport");
 
-		btnImport = new JButton(Constants.IMPORT);// new
+		btnImport = new JButton(App.getValue("common.import"));// new
 		// JButton(TextHolder.getString("session.cancel"));
 		btnImport.addActionListener(this);
 		btnImport.putClientProperty("button.name", "btnImport");
@@ -220,7 +220,7 @@ public class NewSessionDlg extends JDialog implements ActionListener, TreeSelect
 
 		namePanel.setBorder(new EmptyBorder(10, 0, 0, 10));
 
-		lblName = new JLabel(Constants.NAME);
+		lblName = new JLabel(App.getValue("connect.manage.tab.connect.name"));
 		lblName.setAlignmentX(Component.LEFT_ALIGNMENT);
 		lblName.setHorizontalAlignment(JLabel.LEADING);
 		lblName.setBorder(new EmptyBorder(0, 0, 5, 0));
@@ -295,7 +295,7 @@ public class NewSessionDlg extends JDialog implements ActionListener, TreeSelect
 				n = findFirstInfoNode(rootNode);
 				if (n == null) {
 					SessionInfo sessionInfo = new SessionInfo();
-					sessionInfo.setName(Constants.NEW_SESSION);
+					sessionInfo.setName(App.getValue("connect.manage.root"));
 					sessionInfo.setId(UUID.randomUUID().toString());
 					DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(sessionInfo);
 					childNode.setUserObject(sessionInfo);
@@ -410,7 +410,7 @@ public class NewSessionDlg extends JDialog implements ActionListener, TreeSelect
 				obj = parentNode.getUserObject();
 			}
 			SessionInfo sessionInfo = new SessionInfo();
-			sessionInfo.setName(Constants.NEW_SESSION);
+			sessionInfo.setName(App.getValue("connect.manage.info.btn.newSite "));
 			sessionInfo.setId(UUID.randomUUID().toString());
 			// sessionInfo.setParentId(((SessionFolder) obj).getId());
 			DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(sessionInfo);
@@ -432,7 +432,7 @@ public class NewSessionDlg extends JDialog implements ActionListener, TreeSelect
 				objFolder = parentNode.getUserObject();
 			}
 			SessionFolder folder = new SessionFolder();
-			folder.setName("New folder");
+			folder.setName(App.getValue("connect.manage.tab.connect.btn.newFolder"));
 			DefaultMutableTreeNode childNode1 = new DefaultMutableTreeNode(folder);
 			treeModel.insertNodeInto(childNode1, parentNode, parentNode.getChildCount());
 			tree.scrollPathToVisible(new TreePath(childNode1.getPath()));

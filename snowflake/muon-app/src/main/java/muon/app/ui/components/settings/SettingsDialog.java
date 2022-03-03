@@ -8,13 +8,9 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.File;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
@@ -50,9 +46,7 @@ import muon.app.ui.components.KeyShortcutComponent;
 import muon.app.ui.components.SkinnedScrollPane;
 import muon.app.ui.components.SkinnedTextField;
 import muon.app.ui.components.session.files.transfer.FileTransfer;
-import muon.app.ui.components.session.files.transfer.FileTransfer.ConflictAction;
 import muon.app.ui.components.session.files.transfer.FileTransfer.TransferMode;
-import util.CollectionHelper;
 import util.FontUtils;
 import util.LayoutUtilities;
 import util.OptionPaneUtils;
@@ -107,7 +101,7 @@ public class SettingsDialog extends JDialog {
 	 */
 	public SettingsDialog(JFrame window) {
 		super(window);
-		setTitle(Constants.SETTING_TITLE);
+		setTitle(App.getValue("setting.title"));
 		setModal(true);
 		setSize(800, 600);
 
@@ -131,11 +125,11 @@ public class SettingsDialog extends JDialog {
 		});
 
 		Map<String, Component> panelMap = new LinkedHashMap<>();
-		panelMap.put(SettingsPageName.General.toString(), createGeneralPanel());
-		panelMap.put(SettingsPageName.Terminal.toString(), createTerminalPanel());
-		panelMap.put(SettingsPageName.Editor.toString(), createEditorPanel());
-		panelMap.put(SettingsPageName.Display.toString(), createMiscPanel());
-		panelMap.put(SettingsPageName.Security.toString(), createSecurityPanel());
+		panelMap.put(SettingsPageName.General.name, createGeneralPanel());
+		panelMap.put(SettingsPageName.Terminal.name, createTerminalPanel());
+		panelMap.put(SettingsPageName.Editor.name, createEditorPanel());
+		panelMap.put(SettingsPageName.Display.name, createMiscPanel());
+		panelMap.put(SettingsPageName.Security.name, createSecurityPanel());
 
 		for (String key : panelMap.keySet()) {
 			navModel.addElement(key);
@@ -150,9 +144,9 @@ public class SettingsDialog extends JDialog {
 		bottomBox.setBorder(new CompoundBorder(new MatteBorder(1, 0, 0, 0, App.SKIN.getDefaultBorderColor()),
 				new EmptyBorder(10, 10, 10, 10)));
 
-		btnCancel = new JButton(Constants.CANCEL);
-		btnSave = new JButton(Constants.SAVE);
-		btnReset = new JButton(Constants.RESET);
+		btnCancel = new JButton(App.getValue("common.cancel"));
+		btnSave = new JButton(App.getValue("common.save"));
+		btnReset = new JButton(App.getValue("common.reset"));
 
 		btnSave.addActionListener(e -> {
 			applySettings();
@@ -402,21 +396,22 @@ public class SettingsDialog extends JDialog {
 	public JPanel createGeneralPanel() {
 		JPanel panel = new JPanel(new BorderLayout());
 
-		chkConfirmBeforeDelete = new JCheckBox("Confirm before deleting files");
-		chkConfirmBeforeMoveOrCopy = new JCheckBox("Confirm before moving or copying files");
-		chkShowHiddenFilesByDefault = new JCheckBox("Show hidden files by default");
-		chkPromptForSudo = new JCheckBox("Prompt for sudo if operation fails due to permission issues");
-		chkDirectoryCache = new JCheckBox("Use directory caching");
-		chkShowPathBar = new JCheckBox("Show current folder in path bar style");
-		chkShowMessagePrompt = new JCheckBox("Show banner");
+		chkConfirmBeforeDelete = new JCheckBox(App.getValue("setting.tab.general.confirmDelete"));
+		chkConfirmBeforeMoveOrCopy = new JCheckBox(App.getValue("setting.tab.general.confirmMoveOrCopying"));
+		chkShowHiddenFilesByDefault = new JCheckBox(App.getValue("setting.tab.general.showHideFile"));
+		chkPromptForSudo = new JCheckBox(App.getValue("setting.tab.general.permissionIssuePrompt"));
+		chkDirectoryCache = new JCheckBox(App.getValue("setting.tab.general.useDirectoryCaching"));
+		chkShowPathBar = new JCheckBox(App.getValue("setting.tab.general.showPathBar"));
+		chkShowMessagePrompt = new JCheckBox(App.getValue("setting.tab.general.showBanner"));
 
-		chkLogWrap = new JCheckBox("Word wrap on log viewer");
+		chkLogWrap = new JCheckBox(App.getValue("setting.tab.general.logWordWrap"));
 		spLogLinesPerPage = new JSpinner(new SpinnerNumberModel(50, 10, 500, 1));
 		spLogFontSize = new JSpinner(new SpinnerNumberModel(14, 5, 500, 1));
 
 		spSysLoadInterval = new JSpinner(new SpinnerNumberModel(3, 1, Short.MAX_VALUE, 1));
 
-		cmbTransferMode = new JComboBox<>(new String[] { "Transfer normally", "Transfer in background" });
+		cmbTransferMode = new JComboBox<>(new String[] { App.getValue("setting.tab.general.transferMode.opt.transferNormally"),
+				App.getValue("setting.tab.general.transferMode.opt.transferBackground") });
 		cmbConflictAction = new JComboBox<>(conflictOptions);
 
 		languageMode = new JComboBox<>(languageOptions);
@@ -484,8 +479,9 @@ public class SettingsDialog extends JDialog {
 		vbox.add(chkShowMessagePrompt);
 		vbox.add(Box.createRigidArea(new Dimension(10, 20)));
 
-		JLabel lbl1 = new JLabel("Log viewer lines per page"), lbl2 = new JLabel("Log viewer font size"),
-				lbl3 = new JLabel("System load refresh interval (sec)");
+		JLabel lbl1 = new JLabel(App.getValue("setting.tab.general.logLinePerPage")),
+				lbl2 = new JLabel(App.getValue("setting.tab.general.logFontSize")),
+				lbl3 = new JLabel(App.getValue("setting.tab.general.refreshInterval"));
 
 //		lbl1.setFont(font);
 //		lbl2.setFont(font);
@@ -502,11 +498,11 @@ public class SettingsDialog extends JDialog {
 		vbox.add(Box.createRigidArea(new Dimension(10, 10)));
 		vbox.add(createRow(lbl3, Box.createHorizontalGlue(), spSysLoadInterval));
 		vbox.add(Box.createRigidArea(new Dimension(10, 10)));
-		vbox.add(createRow(new JLabel("Transfer mode"), Box.createHorizontalGlue(), cmbTransferMode));
+		vbox.add(createRow(new JLabel(App.getValue("setting.tab.general.transferMode")), Box.createHorizontalGlue(), cmbTransferMode));
 		vbox.add(Box.createRigidArea(new Dimension(10, 10)));
-		vbox.add(createRow(new JLabel("Conflict action"), Box.createHorizontalGlue(), cmbConflictAction));
+		vbox.add(createRow(new JLabel(App.getValue("setting.tab.general.conflictAction")), Box.createHorizontalGlue(), cmbConflictAction));
 		vbox.add(Box.createRigidArea(new Dimension(10, 10)));
-		vbox.add(createRow(new JLabel("Language"), Box.createHorizontalGlue(), languageMode));
+		vbox.add(createRow(new JLabel(App.getValue("setting.tab.general.language")), Box.createHorizontalGlue(), languageMode));
 		vbox.add(Box.createRigidArea(new Dimension(10, 10)));
 		vbox.setBorder(new EmptyBorder(30, 10, 10, 10));
 		// add(vbox);
@@ -685,6 +681,16 @@ public class SettingsDialog extends JDialog {
 				cmbConflictAction.setSelectedIndex(0);
 			}
 		});
+
+		languageMode.addActionListener(e -> {
+			if (languageMode.getSelectedIndex()==0){
+				App.setResourceBundle(Locale.SIMPLIFIED_CHINESE);
+			}else if (languageMode.getSelectedIndex()==1){
+				App.setResourceBundle(Locale.TRADITIONAL_CHINESE);
+			}else if(languageMode.getSelectedIndex()==2){
+				App.setResourceBundle(Locale.US);
+			}
+		});
 		cmbTransferMode.setSelectedIndex(settings.getFileTransferMode() == TransferMode.Normal ? 0 : 1);
 		// set initial values
 		conflictOptions.addAll(conflictOption1);
@@ -706,14 +712,14 @@ public class SettingsDialog extends JDialog {
 			break;
 		}
 		switch (settings.getLanguageMode()) {
-			case SimplifiedChinese:
-				languageMode.setSelectedIndex(0);
+			case SIMPLIFIED_CHINESE:
+				this.languageMode.setSelectedIndex(0);
 				break;
-			case ChineseTraditional:
-				languageMode.setSelectedIndex(1);
+			case TRADITIONAL_CHINESE:
+				this.languageMode.setSelectedIndex(1);
 				break;
 			case English:
-				cmbConflictAction.setSelectedIndex(2);
+				this.languageMode.setSelectedIndex(2);
 				break;
 			default:
 				break;

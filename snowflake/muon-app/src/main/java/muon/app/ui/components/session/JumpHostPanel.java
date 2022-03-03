@@ -32,7 +32,7 @@ public class JumpHostPanel extends JPanel {
 
 	public JumpHostPanel() {
 		super(new BorderLayout(5, 5));
-		JLabel lblTitle = new JLabel("Intermediate hops");
+		JLabel lblTitle = new JLabel(App.getValue("connect.manage.tab.jumpHosts.interMediateHops"));
 		hopList.setBackground(App.SKIN.getTableBackgroundColor());
 
 		JScrollPane scrollPane = new SkinnedScrollPane(hopList);
@@ -176,9 +176,13 @@ public class JumpHostPanel extends JPanel {
 		});
 
 		while (JOptionPane.showOptionDialog(this,
-				new Object[] { "Host", txtHost, "Port", spPort, "User", txtUser, "Password", txtPassword, "Private key",
+				new Object[] { App.getValue("connect.manage.tab.jumpHosts.interMediateHops.hopsEntry.host"), txtHost,
+						App.getValue("connect.manage.tab.jumpHosts.interMediateHops.hopsEntry.port"), spPort,
+						App.getValue("connect.manage.tab.jumpHosts.interMediateHops.hopsEntry.user"), txtUser, "" +
+						App.getValue("connect.manage.tab.jumpHosts.interMediateHops.hopsEntry.password"), txtPassword,
+						App.getValue("connect.manage.tab.jumpHosts.interMediateHops.hopsEntry.privateKey"),
 						txtKeyFile },
-				"Hop entry", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null,
+				App.getValue("connect.manage.tab.jumpHosts.interMediateHops.hopsEntry.title"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null,
 				null) == JOptionPane.OK_OPTION) {
 			String host = txtHost.getText();
 			String user = txtUser.getText();

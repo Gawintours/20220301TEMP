@@ -36,7 +36,7 @@ public class PortForwardingPanel extends JPanel {
 		model = new PFTableModel();
 		table = new JTable(model);
 
-		JLabel lblTitle = new JLabel("Port forwarding rules");
+		JLabel lblTitle = new JLabel(App.getValue("connect.manage.tab.portForwarding.rule"));
 
 		JScrollPane scrollPane = new SkinnedScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(400, 200));
@@ -101,7 +101,11 @@ public class PortForwardingPanel extends JPanel {
 
 	private static class PFTableModel extends AbstractTableModel {
 
-		private String[] columns = { "Type", "Host", "Source Port", "Target Port", "Bind Host" };
+		private String[] columns = { App.getValue("connect.manage.tab.portForwarding.type"),
+				App.getValue("connect.manage.tab.portForwarding.host"),
+				App.getValue("connect.manage.tab.portForwarding.sourcePort"),
+				App.getValue("connect.manage.tab.portForwarding.targetPort"),
+				App.getValue("connect.manage.tab.portForwarding.bindHost") };
 		private List<PortForwardingRule> list = new ArrayList<>();
 
 		@Override
@@ -190,8 +194,11 @@ public class PortForwardingPanel extends JPanel {
 		}
 
 		while (JOptionPane.showOptionDialog(this,
-				new Object[] { "Port forwarding type", cmbPFType, "Host", txtHost, "Source Port", spSourcePort,
-						"Target Port", spTargetPort, "Bind Address", txtBindAddress },
+				new Object[] {App.getValue("connect.manage.tab.portForwarding.type"), cmbPFType,
+						App.getValue("connect.manage.tab.portForwarding.host"), txtHost,
+						App.getValue("connect.manage.tab.portForwarding.sourcePort"), spSourcePort,
+						App.getValue("connect.manage.tab.portForwarding.targetPort"), spTargetPort,
+						App.getValue("connect.manage.tab.portForwarding.bindHost"), txtBindAddress },
 				"Port forwarding rule", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null,
 				null) == JOptionPane.OK_OPTION) {
 

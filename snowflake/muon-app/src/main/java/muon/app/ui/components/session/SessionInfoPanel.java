@@ -29,6 +29,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import muon.app.App;
 import muon.app.common.Constants;
 import muon.app.ui.components.SkinnedTextField;
 import muon.app.ui.components.TabbedPanel;
@@ -179,11 +180,11 @@ public class SessionInfoPanel extends JPanel {
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(10, 0, 10, 0));
 		tabs = new TabbedPanel();
-		tabs.addTab(Constants.CONNECTION, createConnectionPanel());
-		tabs.addTab(Constants.DIRECTORIES, createDirectoryPanel());
-		tabs.addTab(Constants.PROXY, createProxyPanel());
-		tabs.addTab(Constants.JUMP_HOSTS, createJumpPanel());
-		tabs.addTab(Constants.PORT_FORWARDING, createPortForwardingPanel());
+		tabs.addTab(App.getValue("connect.manage.tab.connect"), createConnectionPanel());
+		tabs.addTab(App.getValue("connect.manage.tab.directories"), createDirectoryPanel());
+		tabs.addTab(App.getValue("connect.manage.tab.proxy"), createProxyPanel());
+		tabs.addTab(App.getValue("connect.manage.tab.jumpHosts"), createJumpPanel());
+		tabs.addTab(App.getValue("connect.manage.tab.portForwarding"), createPortForwardingPanel());
 		this.add(tabs);
 		tabs.setSelectedIndex(0);
 	}
@@ -195,9 +196,9 @@ public class SessionInfoPanel extends JPanel {
 		Insets topInset = new Insets(20, 10, 0, 10);
 		Insets noInset = new Insets(5, 10, 0, 10);
 
-		chkUseJumpHosts = new JCheckBox("Jump Hosts / Multi hop port forwarding");
-		radMultiHopTunnel = new JRadioButton("Use multihop SSH tunnel");
-		radMultiHopPortForwarding = new JRadioButton("Use multihop port forwarding");
+		chkUseJumpHosts = new JCheckBox(App.getValue("connect.manage.tab.jumpHosts.forwarding"));
+		radMultiHopTunnel = new JRadioButton(App.getValue("connect.manage.tab.jumpHosts.useMultiSSHTunnel"));
+		radMultiHopPortForwarding = new JRadioButton(App.getValue("connect.manage.tab.jumpHosts.userMultiPortForwarding"));
 
 		chkUseJumpHosts.addActionListener(e -> {
 			info.setUseJumpHosts(chkUseJumpHosts.isSelected());
@@ -283,12 +284,12 @@ public class SessionInfoPanel extends JPanel {
 		Insets noInset = new Insets(5, 10, 0, 10);
 
 		// -----------
-		lblProxyType = new JLabel(Constants.PROXY_TYPE);
-		lblProxyHost = new JLabel(Constants.PROXY_HOST);
+		lblProxyType = new JLabel(App.getValue("connect.manage.tab.proxy.proxyType"));
+		lblProxyHost = new JLabel(App.getValue("connect.manage.tab.proxy.proxyHost"));
 		lblProxyHost.setHorizontalAlignment(JLabel.LEADING);
-		lblProxyPort = new JLabel(Constants.PROXY_PORT);
-		lblProxyUser = new JLabel(Constants.PROXY_USER);
-		lblProxyPass = new JLabel(Constants.PROXY_PASSWORD+ " ( "+Constants.PROXY_PASSWORD_TIPS+" )");
+		lblProxyPort = new JLabel(App.getValue("connect.manage.tab.proxy.proxyPort"));
+		lblProxyUser = new JLabel(App.getValue("connect.manage.tab.proxy.proxyUser"));
+		lblProxyPass = new JLabel(App.getValue("connect.manage.tab.proxy.proxyPassword")+ " ( "+App.getValue("connect.manage.tab.proxy.proxyPassword.tips")+" )");
 
 		cmbProxy = new JComboBox<>(new String[] { "NONE", "HTTP", "SOCKS" });
 		cmbProxy.addActionListener(e -> {
@@ -525,7 +526,7 @@ public class SessionInfoPanel extends JPanel {
 			}
 		});
 
-		inpLocalBrowse = new JButton(Constants.BROWSE);
+		inpLocalBrowse = new JButton(App.getValue("common.browse"));
 		inpLocalBrowse.addActionListener(e -> {
 			JFileChooser jfc = new JFileChooser();
 			jfc.setFileHidingEnabled(false);
@@ -597,14 +598,14 @@ public class SessionInfoPanel extends JPanel {
 		Insets noInset = new Insets(5, 10, 0, 10);
 
 		// setBackground(new Color(245,245,245));
-		lblHost = new JLabel(Constants.HOST);
+		lblHost = new JLabel(App.getValue("connect.manage.tab.connect.host"));
 		lblHost.setHorizontalAlignment(JLabel.LEADING);
-		lblPort = new JLabel(Constants.PORT);
-		lblUser = new JLabel(Constants.USER);
-		lblPass = new JLabel(Constants.PASSWORD);
-		lblLocalFolder = new JLabel(Constants.LOCAL_FOLDER);
-		lblRemoteFolder = new JLabel(Constants.REMOTE_FOLDER);
-		lblKeyFile = new JLabel(Constants.PRIVATE_KEY_FILE);
+		lblPort = new JLabel(App.getValue("connect.manage.tab.connect.port"));
+		lblUser = new JLabel(App.getValue("connect.manage.tab.connect.user"));
+		lblPass = new JLabel(App.getValue("connect.manage.tab.connect.password"));
+		lblLocalFolder = new JLabel(App.getValue("connect.manage.tab.directories.localFolder"));
+		lblRemoteFolder = new JLabel(App.getValue("connect.manage.tab.directories.remoteFolder"));
+		lblKeyFile = new JLabel(App.getValue("connect.manage.tab.connect.privateKey"));
 
 		inpHostName = new SkinnedTextField(10);// new JTextField(30);
 		inpHostName.getDocument().addDocumentListener(new DocumentListener() {
@@ -706,7 +707,7 @@ public class SessionInfoPanel extends JPanel {
 			}
 		});
 
-		inpKeyBrowse = new JButton("Browse");// new
+		inpKeyBrowse = new JButton(App.getValue("common.browse"));// new
 												// JButton(TextHolder.getString("host.browse"));
 		inpKeyBrowse.addActionListener(e -> {
 			JFileChooser jfc = new JFileChooser();

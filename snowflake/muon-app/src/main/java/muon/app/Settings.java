@@ -17,7 +17,7 @@ public class Settings {
 	private boolean usingMasterPassword = false;
 	private TransferMode fileTransferMode = TransferMode.Prompt;
 	private ConflictAction conflictAction = ConflictAction.AutoRename;
-	private FileTransfer.LanguageMode languageMode = FileTransfer.LanguageMode.SimplifiedChinese;
+	private FileTransfer.LanguageMode languageMode = FileTransfer.LanguageMode.SIMPLIFIED_CHINESE;
 	private boolean confirmBeforeDelete = true;
 	private boolean confirmBeforeMoveOrCopy = false;
 	private boolean showHiddenFilesByDefault = false;
